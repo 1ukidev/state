@@ -1,0 +1,15 @@
+:root {
+  --r-background-color: #282828;
+  --r-main-color: #ebdbb2;
+  --r-heading-color: #fabd2f;
+  --r-link-color: #fe8019;
+}
+
+.reveal {
+  font-family: 'Inter', sans-serif;
+  font-size: 28px;
+}
+
+.reveal strong {
+  font-weight: 700;
+}

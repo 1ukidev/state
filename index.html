@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>State Pattern</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/theme/black.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/gruvbox-dark-hard.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Slide 1 -->
+      <section>
+        <h1>State Pattern</h1>
+        <p>Padrão de Projeto Comportamental</p>
+      </section>
+
+      <!-- Slide 2 -->
+      <section>
+        <h2>O que é?</h2>
+        <p>Permite que um objeto altere seu comportamento quando seu estado muda.</p>
+      </section>
+
+      <!-- Slide 3 -->
+      <section>
+        <h2>Problema</h2>
+        <p>Muitos if/else ou switch baseados em estado</p>
+        <pre><code>
+if (estado == "A") { ... }
+else if (estado == "B") { ... }
+        </code></pre>
+      </section>
+
+      <!-- Slide 4 -->
+      <section>
+        <h2>Solução</h2>
+        <p>Criar uma classe para cada estado</p>
+        <p>Usar polimorfismo ao invés de condicionais</p>
+      </section>
+
+      <!-- Slide 5 -->
+      <section>
+        <h2>Estrutura</h2>
+        <ul>
+          <li>State (interface)</li>
+          <li>Concrete States</li>
+          <li>Context</li>
+        </ul>
+      </section>
+
+      <!-- Slide vertical (exemplo) -->
+      <section>
+        <section>
+          <h2>Exemplo: Semáforo</h2>
+          <p>Estados: Verde, Amarelo, Vermelho</p>
+        </section>
+
+        <section>
+          <h3>Interface State</h3>
+          <pre><code>
+interface State {
+    void handle();
+}
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Estado Verde</h3>
+          <pre><code>
+class GreenState implements State {
+    public void handle() {
+        System.out.println("Pode passar!");
+    }
+}
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Contexto</h3>
+          <pre><code>
+class TrafficLight {
+    private State state;
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public void action() {
+        state.handle();
+    }
+}
+          </code></pre>
+        </section>
+      </section>
+
+      <!-- Slide final -->
+      <section>
+        <h2>Vantagens</h2>
+        <ul>
+          <li>Remove if/else complexos</li>
+          <li>Código mais organizado</li>
+          <li>Facilita manutenção</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Resumo</h2>
+        <p>Estado muda → comportamento muda</p>
+        <p>Use classes ao invés de condicionais</p>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/highlight/highlight.min.js"></script>
+
+  <script>
+    Reveal.initialize({
+      controls: false,
+      hash: true,
+      slideNumber: false,
+      plugins: [ RevealHighlight ]
+    });
+  </script>
+</body>
+</html>
