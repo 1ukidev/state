@@ -16,101 +16,150 @@
       <!-- Slide 1 -->
       <section>
         <h1>State Pattern</h1>
-        <p>Padrão de Projeto Comportamental</p>
+        <p>Alterando o comportamento de um objeto conforme seu estado interno.</p>
       </section>
 
       <!-- Slide 2 -->
       <section>
-        <h2>O que é?</h2>
-        <p>Permite que um objeto altere seu comportamento quando seu estado muda.</p>
+        <h2>O Problema</h2>
+        <p>Como representar diferentes comportamentos de um objeto dependendo do seu estado?</p>
       </section>
 
       <!-- Slide 3 -->
       <section>
-        <h2>Problema</h2>
-        <p>Muitos if/else ou switch baseados em estado</p>
-        <pre><code>
-if (estado == "A") { ... }
-else if (estado == "B") { ... }
-        </code></pre>
+        <h2>Exemplo</h2>
+        <p>Cada pedido de compra pode assumir múltiplos estados:</p>
+        <ul>
+          <li>Novo</li>
+          <li>Pago</li>
+          <li>Enviado</li>
+          <li>Finalizado</li>
+          <li>Cancelado</li>
+        </ul>
       </section>
 
       <!-- Slide 4 -->
       <section>
-        <h2>Solução</h2>
-        <p>Criar uma classe para cada estado</p>
-        <p>Usar polimorfismo ao invés de condicionais</p>
+        <h2>Código Sem o Pattern</h2>
+        <pre><code>
+class Pedido {
+  String estado;
+
+  void proximoEstado() {
+    if (estado.equals("Novo")) {
+      estado = "Pago";
+    } else if (estado.equals("Pago")) {
+      estado = "Enviado";
+    } else if (estado.equals("Enviado")) {
+      estado = "Finalizado";
+    }
+  }
+}
+        </code></pre>
       </section>
 
       <!-- Slide 5 -->
       <section>
-        <h2>Estrutura</h2>
+        <h2>O Problema Resumido</h2>
         <ul>
-          <li>State (interface)</li>
-          <li>Concrete States</li>
-          <li>Context</li>
+          <li>Mudanças quebram o código</li>
+          <li>Regras espalhadas</li>
+          <li>Viola Open/Closed</li>
         </ul>
       </section>
 
-      <!-- Slide vertical (exemplo) -->
+      <!-- Slide 6 -->
       <section>
-        <section>
-          <h2>Exemplo: Semáforo</h2>
-          <p>Estados: Verde, Amarelo, Vermelho</p>
-        </section>
-
-        <section>
-          <h3>Interface State</h3>
-          <pre><code>
-interface State {
-    void handle();
-}
-          </code></pre>
-        </section>
-
-        <section>
-          <h3>Estado Verde</h3>
-          <pre><code>
-class GreenState implements State {
-    public void handle() {
-        System.out.println("Pode passar!");
-    }
-}
-          </code></pre>
-        </section>
-
-        <section>
-          <h3>Contexto</h3>
-          <pre><code>
-class TrafficLight {
-    private State state;
-
-    public void setState(State state) {
-        this.state = state;
-    }
-
-    public void action() {
-        state.handle();
-    }
-}
-          </code></pre>
-        </section>
-      </section>
-
-      <!-- Slide final -->
-      <section>
-        <h2>Vantagens</h2>
+        <h2>Intenção do State Pattern</h2>
+        <p>O State permite que um objeto altere seu comportamento quando seu estado interno muda, parecendo mudar sua própria classe.</p>
         <ul>
-          <li>Remove if/else complexos</li>
-          <li>Código mais organizado</li>
-          <li>Facilita manutenção</li>
+          <li>Cada estado vira uma classe separada</li>
+          <li>O comportamento muda dinamicamente</li>
+          <li>Elimina if/else completamente</li>
         </ul>
       </section>
 
+      <!-- Slide 7 -->
       <section>
-        <h2>Resumo</h2>
-        <p>Estado muda → comportamento muda</p>
-        <p>Use classes ao invés de condicionais</p>
+        <h2>Exemplo Prático em Java</h2>
+        <pre><code>
+interface EstadoPedido {
+  void proximoEstado(Pedido pedido);
+}
+
+class Novo implements EstadoPedido {
+  public void proximoEstado(Pedido pedido) {
+    pedido.setEstado(new Pago());
+  }
+}
+
+class Pago implements EstadoPedido {
+  public void proximoEstado(Pedido pedido) {
+    pedido.setEstado(new Enviado());
+  }
+}
+        </code></pre>
+      </section>
+
+      <!-- Slide 8 -->
+      <section>
+        <pre><code>
+class Pedido {
+  private EstadoPedido estado;
+
+  public Pedido() {
+    estado = new Novo();
+  }
+
+  public void proximoEstado() {
+    estado.proximoEstado(this);
+  }
+}
+
+// Uso:
+Pedido pedido = new Pedido();
+pedido.proximoEstado(); // Novo -> Pago
+pedido.proximoEstado(); // Pago -> Enviado
+        </code></pre>
+      </section>
+
+      <!-- Slide 9 -->
+      <section>
+        <h2>Aplicações no Mundo Real</h2>
+        <ul>
+          <li>E-commerce: ciclo de vida de pedidos com estados bem definidos</li>
+          <li>Jogos: personagem parado, correndo ou pulando</li>
+          <li>Apps: modo online/offline, APIs de pagamento, microserviços</li>
+        </ul>
+      </section>
+
+      <!-- Slide 10 -->
+      <section>
+        <h2>State vs Strategy</h2>
+        <ul>
+          <li>Strategy: troca comportamento manualmente</li>
+          <li>State: troca automaticamente conforme o estado interno</li>
+        </ul>
+      </section>
+
+      <!-- Slide 11 -->
+      <section>
+        <h2>Vantagens e Desvantagens</h2>
+        <ul>
+          <li>Vantagens: remove if/else, código mais organizado, fácil adicionar novos estados</li>
+          <li>Desvantagens: muitas classes para estados simples, mais complexo para iniciantes</li>
+        </ul>
+      </section>
+
+      <!-- Slide 12 -->
+      <section>
+        <h2>Conclusão</h2>
+        <p>Use o State Pattern quando:</p>
+        <ul>
+          <li>O comportamento depende do estado</li>
+          <li>Há muitos if/else</li>
+          <li>Mudanças são frequentes</li>
+        </ul>
       </section>
 
     </div>
