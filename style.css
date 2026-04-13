@@ -3,13 +3,14 @@
   --r-main-color: #ebdbb2;
   --r-heading-color: #fabd2f;
   --r-link-color: #fe8019;
+  --r-main-font: 'Inter', sans-serif;
+  --r-heading-font: 'Inter', sans-serif;
+  --r-code-font: 'JetBrains Mono', monospace;
+  --r-heading1-size: 48px;
+  --r-heading2-size: 40px;
+  --r-main-font-size: 26px;
 }
 
-.reveal {
-  font-family: 'Inter', sans-serif;
-  font-size: 28px;
-}
-
-.reveal strong {
-  font-weight: 700;
+.reveal pre {
+  font-size: .6em;
 }
